@@ -6,31 +6,31 @@ import java.time.LocalDateTime;
 
 public class RestErrorMessage {
     private HttpStatus status;
-    private String message;
+    private String mensagem;
     private LocalDateTime timestamp;
 
-    public RestErrorMessage(HttpStatus status, String message, LocalDateTime timestamp) {
+    public RestErrorMessage(HttpStatus status, String mensagem, LocalDateTime timestamp) {
         this.status = status;
-        this.message = message;
+        this.mensagem = mensagem;
         this.timestamp = timestamp;
     }
 
-    public RestErrorMessage(HttpStatus status, String message) {
+    public RestErrorMessage(HttpStatus status, String mensagem) {
         this.status = status;
-        this.message = message;
+        this.mensagem = mensagem;
         this.timestamp = LocalDateTime.now();
     }
 
     public HttpStatus getStatus() {return status;}
-    public String getMessage() { return message; }
+    public String getMensagem() { return mensagem; }
     public LocalDateTime getTimestamp() { return timestamp; }
 
     public void setStatus(HttpStatus status) {
         this.status = status;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
     }
 
     public void setTimestamp(LocalDateTime timestamp) {
