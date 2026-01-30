@@ -1,10 +1,14 @@
 package br.ufrn.manageit.domain.model;
 
 import br.ufrn.manageit.domain.enumeration.SituacaoProcessoSeletivo;
+import br.ufrn.manageit.domain.enumeration.TipoProcessoSeletivo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -15,16 +19,19 @@ public class ProcessoSeletivo {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    @NotBlank(message = "O processo seletivo necessita de um nome")
     private String nomeProcesso;
+    @NotNull(message = "Informe o ano em que se deu o processo")
     private Integer anoProcesso;
-    private String tipoProcesso;
+    @NotNull(message = "O tipo do processo seletivo é obrigatório")
+    private TipoProcessoSeletivo tipoProcesso;
     private LocalDate dataInicio;
     private LocalDate dataFim;
     private SituacaoProcessoSeletivo situacao;
 
     public ProcessoSeletivo(SituacaoProcessoSeletivo situacao,
                             LocalDate dataFim, LocalDate dataInicio,
-                            String tipoProcesso, Integer anoProcesso,
+                            TipoProcessoSeletivo tipoProcesso, Integer anoProcesso,
                             String nomeProcesso, UUID id) {
         this.situacao = situacao;
         this.dataFim = dataFim;
@@ -61,11 +68,11 @@ public class ProcessoSeletivo {
         this.anoProcesso = anoProcesso;
     }
 
-    public String getTipoProcesso() {
+    public TipoProcessoSeletivo getTipoProcesso() {
         return tipoProcesso;
     }
 
-    public void setTipoProcesso(String tipoProcesso) {
+    public void setTipoProcesso(TipoProcessoSeletivo tipoProcesso) {
         this.tipoProcesso = tipoProcesso;
     }
 
