@@ -31,8 +31,9 @@ public class ProcessoSeletivoController {
     }
 
     @GetMapping("/buscar")
-    public ResponseEntity<ProcessoSeletivo> buscarPorNome(@RequestParam String nomeProcesso) {
-        return ResponseEntity.ok(service.buscarPorNome(nomeProcesso));
+    public ResponseEntity<List<ProcessoSeletivo>> buscarPorNome(@RequestParam(required = false) String nomeProcesso,
+                                                          @RequestParam(required = false) Integer ano) {
+        return ResponseEntity.ok(service.buscar(nomeProcesso, ano));
     }
 
     @PostMapping

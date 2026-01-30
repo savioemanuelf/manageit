@@ -1,10 +1,12 @@
 package br.ufrn.manageit.service;
 
 import br.ufrn.manageit.domain.model.ProcessoSeletivo;
+import br.ufrn.manageit.infra.exception.BuscaInvalida;
 import br.ufrn.manageit.infra.exception.RecursoNaoEncontradoException;
 import br.ufrn.manageit.repository.ProcessoSeletivoRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,12 +36,27 @@ public class ProcessoSeletivoService {
         return repository.save(processo);
     }
 
-    public ProcessoSeletivo buscarPorNome(String nomeProcesso) {
-        return repository.findByNomeProcesso(nomeProcesso)
-                .orElseThrow(() ->   new RecursoNaoEncontradoException(
-                        "Processo seletivo não encontrado para o nome: " + nomeProcesso
-                )
+    public List<ProcessoSeletivo> buscar(String nomeProcesso, Integer ano) {
+        List<ProcessoSeletivo> processosEncontrados;
+        if(nomeProcesso == null && ano == null){
+            throw new BuscaInvalida(
+                    "É necessário informar ao menos um filtro de busca"
             );
+        }
+        if(nomeProcesso != null) {
+            processosEncontrados = repository.findByNomeProcesso(nomeProcesso)
+                    .orElseThrow(() ->   new RecursoNaoEncontradoException(
+                            "Processo seletivo não encontrado para o nome: " + nomeProcesso
+                    )
+                );
+            return processosEncontrados;
+        }
+        processosEncontrados = repository.findByAnoProcesso(ano)
+                .orElseThrow(() ->   new RecursoNaoEncontradoException(
+                                "Processo seletivo não encontrado para o ano: " + ano
+                        )
+                );
+        return processosEncontrados;
     }
 
     public void deletar(UUID id) {
