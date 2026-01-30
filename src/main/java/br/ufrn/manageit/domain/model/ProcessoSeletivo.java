@@ -2,13 +2,11 @@ package br.ufrn.manageit.domain.model;
 
 import br.ufrn.manageit.domain.enumeration.SituacaoProcessoSeletivo;
 import br.ufrn.manageit.domain.enumeration.TipoProcessoSeletivo;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -19,14 +17,22 @@ public class ProcessoSeletivo {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
     @NotBlank(message = "O processo seletivo necessita de um nome")
     private String nomeProcesso;
+
     @NotNull(message = "Informe o ano em que se deu o processo")
     private Integer anoProcesso;
+
     @NotNull(message = "O tipo do processo seletivo é obrigatório")
+    @Enumerated(EnumType.STRING)
     private TipoProcessoSeletivo tipoProcesso;
+
     private LocalDate dataInicio;
     private LocalDate dataFim;
+
+    @NotNull()
+    @Enumerated(EnumType.STRING)
     private SituacaoProcessoSeletivo situacao;
 
     public ProcessoSeletivo(SituacaoProcessoSeletivo situacao,
@@ -34,6 +40,18 @@ public class ProcessoSeletivo {
                             TipoProcessoSeletivo tipoProcesso, Integer anoProcesso,
                             String nomeProcesso, UUID id) {
         this.situacao = situacao;
+        this.dataFim = dataFim;
+        this.dataInicio = dataInicio;
+        this.tipoProcesso = tipoProcesso;
+        this.anoProcesso = anoProcesso;
+        this.nomeProcesso = nomeProcesso;
+        this.id = id;
+    }
+
+    public ProcessoSeletivo(LocalDate dataFim, LocalDate dataInicio,
+                            TipoProcessoSeletivo tipoProcesso, Integer anoProcesso,
+                            String nomeProcesso, UUID id) {
+        this.situacao = SituacaoProcessoSeletivo.EM_ANDAMENTO;
         this.dataFim = dataFim;
         this.dataInicio = dataInicio;
         this.tipoProcesso = tipoProcesso;
