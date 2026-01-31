@@ -1,7 +1,7 @@
 package br.ufrn.manageit.service;
 
 import br.ufrn.manageit.domain.model.Setor;
-import br.ufrn.manageit.infra.exception.BuscaInvalida;
+import br.ufrn.manageit.infra.exception.BuscaInvalidaException;
 import br.ufrn.manageit.infra.exception.RecursoNaoEncontradoException;
 import br.ufrn.manageit.repository.SetorRepository;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,7 @@ public class SetorService {
 
     public Setor buscarPorNome(String nome) {
         if(nome == null) {
-            throw new BuscaInvalida(
+            throw new BuscaInvalidaException(
                     "Informe o nome do setor que deseja buscar"
             );
         }

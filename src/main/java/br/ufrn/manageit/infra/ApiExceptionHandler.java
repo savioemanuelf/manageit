@@ -1,6 +1,6 @@
 package br.ufrn.manageit.infra;
 
-import br.ufrn.manageit.infra.exception.BuscaInvalida;
+import br.ufrn.manageit.infra.exception.BuscaInvalidaException;
 import br.ufrn.manageit.infra.exception.RecursoNaoEncontradoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,8 +18,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         );
     }
 
-    @ExceptionHandler(BuscaInvalida.class)
-    public RestErrorMessage handleNotFound(BuscaInvalida ex) {
+    @ExceptionHandler(BuscaInvalidaException.class)
+    public RestErrorMessage handleNotFound(BuscaInvalidaException ex) {
         return new RestErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),
                 "A busca não pôde ser concluída. " + ex.getMessage()

@@ -1,12 +1,11 @@
 package br.ufrn.manageit.service;
 
 import br.ufrn.manageit.domain.model.ProcessoSeletivo;
-import br.ufrn.manageit.infra.exception.BuscaInvalida;
+import br.ufrn.manageit.infra.exception.BuscaInvalidaException;
 import br.ufrn.manageit.infra.exception.RecursoNaoEncontradoException;
 import br.ufrn.manageit.repository.ProcessoSeletivoRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,7 +38,7 @@ public class ProcessoSeletivoService {
     public List<ProcessoSeletivo> buscar(String nomeProcesso, Integer ano) {
         List<ProcessoSeletivo> processosEncontrados;
         if(nomeProcesso == null && ano == null){
-            throw new BuscaInvalida(
+            throw new BuscaInvalidaException(
                     "É necessário informar ao menos um filtro de busca"
             );
         }
