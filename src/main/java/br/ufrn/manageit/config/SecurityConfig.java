@@ -4,6 +4,7 @@ import br.ufrn.manageit.service.UsuarioService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,19 +28,34 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/", "/index.html", "/cadastro", "/cadastro.html",
                                 "/usuarios/cadastrar").permitAll()
+                        .requestMatchers("/login", "/login.html", "/error",
+                                "/styles/**", "/js/**", "/images/**").permitAll()
 
-                        .requestMatchers("/login", "/login.html", "/error", "/styles/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/itens/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/itens/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/itens/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/itens/**").hasRole("ADMIN")
 
-                        .requestMatchers("/itens/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/movimentacoes/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/movimentacoes/**").hasRole("ADMIN")
                         .requestMatchers("/movimentacoes/*/cancelar",
                                 "/movimentacoes/*/confirmar",
                                 "/movimentacoes/*/devolucao").hasRole("ADMIN")
 
-                        .requestMatchers("/movimentacoes/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/pessoas/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/pessoas/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/pessoas/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/pessoas/**").hasRole("ADMIN")
 
-                        .requestMatchers("/pessoas/**",
-                                "/processos-seletivos/**",
-                                "/setores/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/processos-seletivos/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/processos-seletivos/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/processos-seletivos/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/processos-seletivos/**").hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.GET, "/setores/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/setores/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/setores/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/setores/**").hasRole("ADMIN")
 
                         .anyRequest().authenticated()
                 )
