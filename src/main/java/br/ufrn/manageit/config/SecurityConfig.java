@@ -32,12 +32,13 @@ public class SecurityConfig {
                                 "/styles/**", "/js/**", "/images/**").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/itens/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/usuarios/nomes").authenticated()
                         .requestMatchers(HttpMethod.POST, "/itens/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/itens/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/itens/**").hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.GET, "/movimentacoes/**").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/movimentacoes/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/movimentacoes/**").authenticated()
                         .requestMatchers("/movimentacoes/*/cancelar",
                                 "/movimentacoes/*/confirmar",
                                 "/movimentacoes/*/devolucao").hasRole("ADMIN")
