@@ -28,7 +28,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/index.html", "/cadastro", "/cadastro.html",
                                 "/usuarios/cadastrar").permitAll()
 
-                        .requestMatchers("/login", "/login.html", "/error", "/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/login", "/login.html", "/error", "/styles/**", "/js/**", "/images/**").permitAll()
 
                         .requestMatchers("/itens/**").hasRole("ADMIN")
                         .requestMatchers("/movimentacoes/*/cancelar",
