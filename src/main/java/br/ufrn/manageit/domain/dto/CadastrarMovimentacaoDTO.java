@@ -13,8 +13,6 @@ public record CadastrarMovimentacaoDTO(
         @NotNull
         UUID usuarioDestinoId,
 
-        @NotNull
-        UUID usuarioPermitivoId,
 
         @NotEmpty
         Set<UUID> itensId,

@@ -164,7 +164,6 @@ async function saveMovimentacao() {
     const movimentacaoData = {
         setorDestinoId: document.getElementById('setorDestinoId').value.trim(),
         usuarioDestinoId: document.getElementById('usuarioDestinoId').value.trim(),
-        usuarioPermitivoId: document.getElementById('usuarioPermitivoId').value.trim(),
         itensId: itensSelecionados.map(item => item.id), // Usar apenas os IDs
         observacao: document.getElementById('observacao').value
     };
@@ -182,10 +181,6 @@ async function saveMovimentacao() {
         return;
     }
 
-    if (!uuidRegex.test(movimentacaoData.usuarioPermitivoId)) {
-        showMessage('UUID do usuário permitivo inválido', 'error');
-        return;
-    }
 
     try {
         const response = await fetch('/movimentacoes', {
@@ -440,7 +435,6 @@ function searchMovimentacoes() {
     const filtered = movimentacoes.filter(movimentacao =>
         (movimentacao.setorDestino?.nome?.toLowerCase() || '').includes(searchTerm) ||
         (movimentacao.usuarioDestino?.nome?.toLowerCase() || '').includes(searchTerm) ||
-        (movimentacao.usuarioPermitivo?.nome?.toLowerCase() || '').includes(searchTerm) ||
         (movimentacao.observacao?.toLowerCase() || '').includes(searchTerm) ||
         (movimentacao.id?.toLowerCase() || '').includes(searchTerm)
     );

@@ -51,9 +51,6 @@ public class MovimentacaoService {
                         "Usuário não encontrado"
                 ));
 
-        Usuario usuarioPermitivo = usuarioRepository.findById(dto.usuarioPermitivoId())
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário permissivo não encontrado"));
-
         List<Item> itens = itemRepository.findAllById(dto.itensId());
 
         if(itens.size() != dto.itensId().size()) {
@@ -78,7 +75,6 @@ public class MovimentacaoService {
         Movimentacao movimentacao = new Movimentacao(
                 setorDestino,
                 usuarioDestino,
-                usuarioPermitivo,
                 itensSet,
                 dto.observacao()
         );

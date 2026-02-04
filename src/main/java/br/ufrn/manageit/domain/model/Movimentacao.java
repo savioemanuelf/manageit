@@ -27,8 +27,6 @@ public class Movimentacao {
     @ManyToOne(optional = false)
     private Usuario usuarioDestino;
 
-    @ManyToOne(optional = false)
-    private Usuario usuarioPermitivo;
 
     @ManyToMany
     @JoinTable(name = "movimentacao_itens",
@@ -46,13 +44,12 @@ public class Movimentacao {
     }
 
     public Movimentacao(Setor setorDestino,
-                        Usuario usuarioDestino, Usuario usuarioPermitivo, Set<Item> itens,
+                        Usuario usuarioDestino, Set<Item> itens,
                         String observacao) {
         this.status = StatusMovimentacao.PENDENTE;
         this.dataHora = LocalDateTime.now();
         this.setorDestino = setorDestino;
         this.usuarioDestino = usuarioDestino;
-        this.usuarioPermitivo = usuarioPermitivo;
         this.itens = itens;
         this.observacao = observacao;
     }
@@ -113,11 +110,4 @@ public class Movimentacao {
         this.id = id;
     }
 
-    public Usuario getUsuarioPermitivo() {
-        return usuarioPermitivo;
-    }
-
-    public void setUsuarioPermitivo(Usuario usuarioPermitivo) {
-        this.usuarioPermitivo = usuarioPermitivo;
-    }
 }
