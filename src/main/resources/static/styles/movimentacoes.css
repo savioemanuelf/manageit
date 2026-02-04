@@ -1,0 +1,139 @@
+.itens-container {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    padding: 15px;
+    background: #f8f9fa;
+    margin-bottom: 15px;
+}
+
+.itens-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px;
+}
+
+.item-card-selectable {
+    background: white;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.item-card-selectable:hover {
+    border-color: #4f6df5;
+    transform: translateY(-2px);
+}
+
+.item-card-selectable.selected {
+    border-color: #28a745;
+    background: #f0fff4;
+}
+
+.item-card-selectable .item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.item-card-selectable .item-name {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.item-card-selectable .item-patrimonio {
+    font-size: 12px;
+    color: #666;
+    background: #f8f9fa;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.item-card-selectable .item-status {
+    font-size: 11px;
+    color: #28a745;
+    font-weight: 500;
+}
+
+.item-card-selectable .checkbox {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 18px;
+    height: 18px;
+    accent-color: #28a745;
+}
+
+.selected-items {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e1e5e9;
+}
+
+.selected-items h4 {
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 16px;
+}
+
+.selected-items-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-height: 20px;
+}
+
+.selected-item-tag {
+    background: #4f6df5;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.selected-item-tag .remove-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0 3px;
+}
+
+.selected-item-tag .remove-btn:hover {
+    color: #ffc107;
+}
+
+.no-items {
+    color: #666;
+    font-style: italic;
+    padding: 10px;
+    text-align: center;
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .itens-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .item-card-selectable {
+        padding: 12px;
+    }
+}

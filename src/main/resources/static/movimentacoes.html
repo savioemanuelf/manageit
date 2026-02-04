@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Movimentações - ManageIT</title>
+    <link rel="stylesheet" href="./styles/general.css">
+    <link rel="stylesheet" href="./styles/itens.css">
+    <link rel="stylesheet" href="./styles/movimentacoes.css">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">ManageIT</div>
+        <h1>Gerenciar Movimentações</h1>
+        <div class="user-info">
+            <span id="username">Usuário</span>
+            <button onclick="logout()" class="btn-logout">Sair</button>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <a href="index.html" class="nav-link">Início</a>
+        <a href="itens.html" class="nav-link">Itens</a>
+        <a href="processos.html" class="nav-link">Processos</a>
+        <a href="setores.html" class="nav-link">Setores</a>
+        <a href="movimentacoes.html" class="nav-link active">Movimentações</a>
+    </div>
+
+    <div class="content">
+        <div class="actions">
+            <button onclick="showCreateForm()" class="btn btn-primary">
+                + Nova Movimentação
+            </button>
+            <div class="filters">
+                <select id="statusFilter" onchange="filterByStatus()">
+                    <option value="">Todos os Status</option>
+                    <option value="PENDENTE">Pendentes</option>
+                    <option value="CONFIRMADA">Confirmadas</option>
+                    <option value="CONCLUIDA">Concluídas</option>
+                    <option value="CANCELADA">Canceladas</option>
+                </select>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Buscar por setor, usuário...">
+                    <button onclick="searchMovimentacoes()" class="btn-search">
+                        <img src="https://cdn-icons-png.flaticon.com/512/5272/5272056.png" alt="lupa" width="16px">
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="message" class="message" style="display: none;"></div>
+
+        <!-- Formulário para criar movimentação -->
+        <div id="movimentacaoForm" class="form-container" style="display: none;">
+            <h3 id="formTitle">Nova Movimentação</h3>
+            <form id="movimentacaoFormElement">
+                <input type="hidden" id="movimentacaoId">
+                <input type="hidden" id="itensSelecionados" value="">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="setorDestinoId">Setor Destino *</label>
+                        <input type="text" id="setorDestinoId" placeholder="UUID do setor destino" required>
+                        <small>Informe o UUID do setor</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="usuarioDestinoId">Usuário Destino *</label>
+                        <input type="text" id="usuarioDestinoId" placeholder="UUID do usuário destino" required>
+                        <small>Informe o UUID do usuário</small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="usuarioPermitivoId">Usuário Permitivo *</label>
+                    <input type="text" id="usuarioPermitivoId" placeholder="UUID do usuário permitivo" required>
+                    <small>Informe o UUID do usuário que autoriza</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Itens Disponíveis *</label>
+                    <div id="itensDisponiveisContainer" class="itens-container">
+                        <!-- Itens serão carregados aqui -->
+                        <div class="loading">Carregando itens disponíveis...</div>
+                    </div>
+                    <small>Selecione os itens para movimentação</small>
+
+                    <div class="selected-items" id="selectedItemsContainer">
+                        <h4>Itens Selecionados:</h4>
+                        <div id="selectedItemsList" class="selected-items-list">
+                            Nenhum item selecionado
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="observacao">Observação</label>
+                    <textarea id="observacao" rows="3" placeholder="Observações sobre a movimentação..."></textarea>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-primary">Criar Movimentação</button>
+                    <button type="button" onclick="hideForm()" class="btn btn-secondary">Cancelar</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="detailsModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Detalhes da Movimentação</h3>
+                    <span onclick="closeModal()" class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Status:</label>
+                            <span id="detailStatus" class="status status-PENDENTE">Pendente</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Setor Destino:</label>
+                            <span id="detailSetor">Setor não informado</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Usuário Destino:</label>
+                            <span id="detailUsuarioDestino">Usuário não informado</span>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <label>Observação:</label>
+                        <div id="detailObservacao" class="observacao-text">
+                            Nenhuma observação
+                        </div>
+                    </div>
+
+                    <div class="items-section">
+                        <h4>Itens Movimentados</h4>
+                        <div id="detailItems" class="items-list">
+
+                        </div>
+                    </div>
+
+                    <div id="modalActions" class="modal-actions">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table id="movimentacoesTable">
+                <thead>
+                <tr>
+                    <th>Setor Destino</th>
+                    <th>Usuário Destino</th>
+                    <th>Qtd. Itens</th>
+                    <th>Status</th>
+                    <th>Data Criação</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+                <tbody id="movimentacoesTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="./js/movimentacoes.js"></script>
+</body>
+</html>

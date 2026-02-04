@@ -7,6 +7,8 @@ import br.ufrn.manageit.infra.exception.BuscaInvalidaException;
 import br.ufrn.manageit.infra.exception.RecursoNaoEncontradoException;
 import br.ufrn.manageit.infra.exception.RegraNegocioException;
 import br.ufrn.manageit.repository.ItemRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -86,4 +88,19 @@ public class ItemService {
         itemRepository.deleteById(id);
     }
 
+    public Page<Item> listarPaginado(Pageable pageable) {
+        return itemRepository.findAll(pageable);
+    }
+
+    public Page<Item> listarPorStatusPaginado(StatusItem status, Pageable pageable) {
+        return itemRepository.findByStatus(status, pageable);
+    }
+
+    public Page<Item> buscarPorNomePaginado(String nome, Pageable pageable) {
+        return itemRepository.findByNomeContainingIgnoreCase(nome, pageable);
+    }
+
+    public List<Item> listarPorStatus(StatusItem status) {
+        return itemRepository.findByStatus(status);
+    }
 }

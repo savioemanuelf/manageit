@@ -5,6 +5,10 @@ import br.ufrn.manageit.domain.enumeration.StatusItem;
 import br.ufrn.manageit.domain.model.Item;
 import br.ufrn.manageit.service.ItemService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +34,25 @@ public class ItemController {
     @GetMapping
     public ResponseEntity<List<Item>> listarItems() {
         return ResponseEntity.ok(service.listar());
+    }
+
+    @GetMapping("/disponiveis")
+    public ResponseEntity<List<Item>> listarItensDisponiveis() {
+        List<Item> disponiveis = service.listarPorStatus(StatusItem.DISPONIVEL);
+        return ResponseEntity.ok(disponiveis);
+    }
+
+    @GetMapping("/paginados")
+    public ResponseEntity<Page<Item>> listarItensPaginados(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "nome") String sort,
+            @RequestParam(defaultValue = "asc") String direction) {
+
+        Pageable pageable = PageRequest.of(page, size,
+                Sort.by(Sort.Direction.fromString(direction), sort));
+
+        return ResponseEntity.ok(service.listarPaginado(pageable));
     }
 
     @GetMapping("/{id}")
