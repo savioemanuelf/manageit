@@ -1,5 +1,6 @@
 package br.ufrn.manageit.domain.model;
 
+import br.ufrn.manageit.domain.enumeration.Role;
 import jakarta.persistence.*;
 
 import java.util.UUID;
@@ -20,11 +21,16 @@ public class Usuario {
     @JoinColumn(name = "pessoa_id", nullable = false, unique = true)
     private Pessoa pessoa;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.ROLE_USER;
+
     public Usuario(UUID id, String login, String senha, Pessoa pessoa) {
         this.id = id;
         this.login = login;
         this.senha = senha;
         this.pessoa = pessoa;
+        this.role = Role.ROLE_USER;
     }
 
     public Usuario() {}
@@ -67,5 +73,13 @@ public class Usuario {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

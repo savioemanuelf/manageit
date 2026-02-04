@@ -1,0 +1,132 @@
+.container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    max-width: 900px;
+    width: 100%;
+    display: flex;
+    min-height: 500px;
+}
+
+.left-section {
+    flex: 1;
+    background: linear-gradient(135deg, #4f6df5 0%, #3a56d6 100%);
+    color: white;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.right-section {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #ffd700;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.left-section p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.features {
+    list-style: none;
+}
+
+.features li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.features li:before {
+    content: "✓";
+    color: #ffd700;
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.auth-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 14px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+}
+
+.btn-primary {
+    background: #4f6df5;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #3a56d6;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary {
+    background: white;
+    color: #4f6df5;
+    border: 2px solid #4f6df5;
+}
+
+.btn-secondary:hover {
+    background: #f8f9fa;
+    transform: translateY(-2px);
+}
+
+.welcome-message {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.welcome-message h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.welcome-message p {
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .left-section, .right-section {
+        padding: 30px;
+    }
+}
