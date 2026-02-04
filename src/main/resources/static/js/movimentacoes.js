@@ -13,6 +13,27 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+async function loadSetoresParaSelect() {
+    try {
+        const response = await fetch('/setores');
+        if (!response.ok) throw new Error('Erro ao carregar setores');
+
+        const setores = await response.json();
+        const select = document.getElementById('setorDestinoId');
+
+        select.innerHTML = '<option value="">Selecione um setor...</option>';
+
+        setores.forEach(setor => {
+            const option = document.createElement('option');
+            option.value = setor.id;
+            option.textContent = setor.nome;
+            select.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Erro ao carregar setores:', error);
+    }
+}
+
 function loadUserInfo() {
     const username = localStorage.getItem('username') || 'Usuário';
     document.getElementById('username').textContent = username;
@@ -149,13 +170,12 @@ function showCreateForm() {
     document.getElementById('movimentacaoId').value = '';
     document.getElementById('movimentacaoForm').style.display = 'block';
 
-    // Carregar itens disponíveis
+    loadSetoresParaSelect();
     loadItensDisponiveis();
     updateSelectedItemsList();
 }
 
 async function saveMovimentacao() {
-    // Verificar se há itens selecionados
     if (itensSelecionados.length === 0) {
         showMessage('Selecione pelo menos um item para a movimentação', 'error');
         return;
@@ -164,11 +184,10 @@ async function saveMovimentacao() {
     const movimentacaoData = {
         setorDestinoId: document.getElementById('setorDestinoId').value.trim(),
         usuarioDestinoId: document.getElementById('usuarioDestinoId').value.trim(),
-        itensId: itensSelecionados.map(item => item.id), // Usar apenas os IDs
+        itensId: itensSelecionados.map(item => item.id),
         observacao: document.getElementById('observacao').value
     };
 
-    // Validar UUIDs
     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
     if (!uuidRegex.test(movimentacaoData.setorDestinoId)) {
@@ -202,7 +221,6 @@ async function saveMovimentacao() {
     }
 }
 
-// Restante do código mantém igual...
 function renderMovimentacoes(movimentacoesToRender) {
     const tbody = document.getElementById('movimentacoesTableBody');
     tbody.innerHTML = '';
