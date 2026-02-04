@@ -82,4 +82,8 @@ public class Usuario {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    public String getNome() {
+        return getPessoa().getNome();
+    }
 }

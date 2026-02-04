@@ -1,7 +1,6 @@
 package br.ufrn.manageit.service;
 
 import br.ufrn.manageit.domain.dto.CriarUsuarioDTO;
-import br.ufrn.manageit.domain.enumeration.Role;
 import br.ufrn.manageit.domain.model.Pessoa;
 import br.ufrn.manageit.domain.model.Usuario;
 import br.ufrn.manageit.infra.exception.RecursoNaoEncontradoException;
@@ -17,7 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService implements UserDetailsService {
@@ -111,5 +112,14 @@ public class UsuarioService implements UserDetailsService {
 
     public List<Usuario> listarUsuarios() {
         return usuarioRepository.findAll();
+    }
+
+    public Map<String, String> listarNomesUsuarios() {
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        return usuarios.stream()
+                .collect(Collectors.toMap(
+                        usuario -> usuario.getId().toString(),
+                        Usuario::getNome
+                ));
     }
 }

@@ -1,6 +1,7 @@
 package br.ufrn.manageit.controller;
 
 import br.ufrn.manageit.domain.dto.CriarUsuarioDTO;
+import br.ufrn.manageit.domain.model.Pessoa;
 import br.ufrn.manageit.domain.model.Usuario;
 import br.ufrn.manageit.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -9,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -29,5 +32,10 @@ public class UsuarioController {
     @GetMapping
     public ResponseEntity<List<Usuario>> listarUsuarios() {
         return ResponseEntity.ok(usuarioService.listarUsuarios());
+    }
+
+    @GetMapping("/nomes")
+    public ResponseEntity<Map<String, String>> listarNomesUsuarios() {
+        return ResponseEntity.ok(usuarioService.listarNomesUsuarios());
     }
 }

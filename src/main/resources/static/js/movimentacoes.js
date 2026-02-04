@@ -33,6 +33,27 @@ async function loadSetoresParaSelect() {
         console.error('Erro ao carregar setores:', error);
     }
 }
+async function loadUsuariosParaSelect() {
+    try {
+        const response = await fetch('/usuarios/nomes');
+        if (!response.ok) throw new Error('Erro ao carregar usuários');
+
+        const usuarios = await response.json();
+        const select = document.getElementById('usuarioDestinoId');
+
+        select.innerHTML = '<option value="">Selecione um usuário...</option>';
+
+        for (const [id, nome] of Object.entries(usuarios)) {
+            const option = document.createElement('option');
+            option.value = id;
+            option.textContent = nome;
+            select.appendChild(option);
+        }
+    } catch (error) {
+        console.error('Erro ao carregar usuários:', error);
+        showMessage('Erro ao carregar lista de usuários', 'error');
+    }
+}
 
 function loadUserInfo() {
     const username = localStorage.getItem('username') || 'Usuário';
@@ -163,7 +184,7 @@ function removeSelectedItem(itemId) {
 
 function showCreateForm() {
     isEditing = false;
-    itensSelecionados = []; // Limpar seleção
+    itensSelecionados = [];
 
     document.getElementById('formTitle').textContent = 'Nova Movimentação';
     document.getElementById('movimentacaoFormElement').reset();
@@ -171,6 +192,7 @@ function showCreateForm() {
     document.getElementById('movimentacaoForm').style.display = 'block';
 
     loadSetoresParaSelect();
+    loadUsuariosParaSelect();
     loadItensDisponiveis();
     updateSelectedItemsList();
 }
