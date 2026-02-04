@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Processos - ManageIT</title>
+    <link rel="stylesheet" href="./styles/general.css">
+    <link rel="stylesheet" href="./styles/itens.css">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">ManageIT</div>
+        <h1>Gerenciar Processos Seletivos</h1>
+        <div class="user-info">
+            <span id="username">Usuário</span>
+            <button onclick="logout()" class="btn-logout">Sair</button>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <a href="index.html" class="nav-link">Início</a>
+        <a href="itens.html" class="nav-link">Itens</a>
+        <a href="processos.html" class="nav-link active">Processos</a>
+        <a href="setores.html" class="nav-link">Setores</a>
+        <a href="movimentacoes.html" class="nav-link">Movimentações</a>
+    </div>
+
+    <div class="content">
+        <div class="actions">
+            <button onclick="showCreateForm()" class="btn btn-primary">
+                + Novo Processo
+            </button>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Buscar por nome ou ano...">
+                <button onclick="searchProcessos()" class="btn-search"><img src="https://cdn-icons-png.flaticon.com/512/5272/5272056.png" alt="lupa" width="16px"></button>
+            </div>
+        </div>
+
+        <div id="message" class="message" style="display: none;"></div>
+
+        <div id="processoForm" class="form-container" style="display: none;">
+            <h3 id="formTitle">Novo Processo Seletivo</h3>
+            <form id="processoFormElement">
+                <input type="hidden" id="processoId">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nomeProcesso">Nome do Processo *</label>
+                        <input type="text" id="nomeProcesso" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="anoProcesso">Ano *</label>
+                        <input type="number" id="anoProcesso" min="2000" max="2030" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tipoProcesso">Tipo *</label>
+                        <select id="tipoProcesso" required>
+                            <option value="">Selecione...</option>
+                            <option value="CONCURSO">Concurso</option>
+                            <option value="CURSO_TECNICO">Curso Técnico</option>
+                            <option value="EAD">EAD</option>
+                            <option value="PROFICIENCIA">Proficiência</option>
+                            <option value="GRADUACAO">Graduação</option>
+                            <option value="EXTRAVESTIBULAR">Extravestibular</option>
+                            <option value="POS_GRADUACAO">Pós-Graduação</option>
+                            <option value="IMD">IMD</option>
+                            <option value="VESTIBULAR">Vestibular</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="situacao">Situação *</label>
+                        <select id="situacao" required>
+                            <option value="EM_ANDAMENTO">Em Andamento</option>
+                            <option value="CONCLUIDO">Concluído</option>
+                            <option value="SUSPENSO">Suspenso</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dataInicio">Data Início</label>
+                        <input type="date" id="dataInicio">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dataFim">Data Fim</label>
+                        <input type="date" id="dataFim">
+                    </div>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="button" onclick="hideForm()" class="btn btn-secondary">Cancelar</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="table-container">
+            <table id="processosTable">
+                <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Ano</th>
+                    <th>Tipo</th>
+                    <th>Situação</th>
+                    <th>Data Início</th>
+                    <th>Data Fim</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+                <tbody id="processosTableBody">
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="./js/processos.js"></script>
+</body>
+</html>
